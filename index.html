@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Error Log Explainer — Bantu developer pemula memahami error log dengan penjelasan bahasa Indonesia yang mudah dipahami." />
+  <title>Error Log Explainer — AI Agent for Programming</title>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Konfigurasi Tailwind tambahan -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: { DEFAULT: '#2563eb', dark: '#1d4ed8', light: '#eff6ff' },
+            accent: { DEFAULT: '#f97316', light: '#fff7ed' },
+          },
+        },
+      },
+    };
+  </script>
+
+  <!-- Style kustom -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body class="bg-gray-50 min-h-screen">
+
+  <!-- ─── Toast notifikasi ───────────────────────────────────────────────── -->
+  <div id="toast" class="opacity-0 translate-y-4" role="status" aria-live="polite" aria-atomic="true"></div>
+
+  <!-- ─── Header ─────────────────────────────────────────────────────────── -->
+  <header class="site-header" role="banner">
+    <div class="max-w-3xl mx-auto">
+      <span class="header-badge">🤖 AI Agent for Programming · Capstone IT Track</span>
+      <h1>🔍 Error Log Explainer</h1>
+      <p>Tempel error log kamu, dan dapatkan penjelasan lengkap beserta langkah perbaikannya — dalam bahasa Indonesia yang mudah dipahami.</p>
+    </div>
+  </header>
+
+  <!-- ─── Tab Bar ────────────────────────────────────────────────────────── -->
+  <div class="max-w-5xl mx-auto px-4 pt-6">
+    <div class="app-tab-bar" role="tablist" aria-label="Pilih fitur">
+      <button class="app-tab-btn active" data-tab="analyzer"
+              onclick="cfSwitchTab('analyzer')"
+              role="tab" aria-selected="true" aria-controls="tab-analyzer">
+        🔍 Analisis Log
+      </button>
+      <button class="app-tab-btn" data-tab="fixer"
+              onclick="cfSwitchTab('fixer')"
+              role="tab" aria-selected="false" aria-controls="tab-fixer">
+        🛠️ Code Fixer
+      </button>
+    </div>
+  </div>
+
+  <!-- ─── Tab Panel: Analisis Log ────────────────────────────────────────── -->
+  <div id="tab-analyzer" class="app-tab-panel" data-tab-panel="analyzer" role="tabpanel" aria-label="Panel Analisis Log">
+  <main class="max-w-5xl mx-auto px-4 py-6 grid grid-cols-1 lg:grid-cols-[1fr_280px] gap-6" id="main-content">
+
+    <!-- ════ Kolom Kiri: Input + Hasil ════════════════════════════════════ -->
+    <div class="flex flex-col gap-6">
+
+      <!-- ── Card Input ───────────────────────────────────────────────── -->
+      <section class="card p-5" aria-labelledby="input-heading">
+        <h2 id="input-heading" class="section-title mb-4">
+          <span>📋</span> Masukkan Error Log
+        </h2>
+
+        <!-- Baris kontrol: dropdown + tombol contoh -->
+        <div class="flex flex-wrap items-center gap-3 mb-3">
+          <label for="language-select" class="text-sm font-medium text-gray-700 whitespace-nowrap">
+            Bahasa / Sumber:
+          </label>
+          <select id="language-select" class="lang-select" aria-label="Pilih bahasa atau sumber error">
+            <option value="auto">🔎 Auto-detect</option>
+            <option value="javascript">⚡ JavaScript</option>
+            <option value="python">🐍 Python</option>
+            <option value="java">☕ Java</option>
+            <option value="cpp">⚙️ C++</option>
+            <option value="sql">🗄️ SQL</option>
+            <option value="http">🌐 HTTP / Network</option>
+          </select>
+
+          <button id="btn-sample" class="btn-orange ml-auto" type="button"
+                  aria-label="Isi textarea dengan contoh error log">
+            📄 Contoh Log
+          </button>
+        </div>
+
+        <!-- Textarea input -->
+        <label for="log-input" class="sr-only">Tempel error log di sini</label>
+        <textarea
+          id="log-input"
+          class="log-textarea"
+          placeholder="Tempel error log di sini... (Ctrl+Enter untuk analisis cepat)
+Contoh:
+TypeError: Cannot read properties of undefined (reading 'map')
+    at App.render (App.js:42:18)"
+          aria-label="Area input error log"
+          aria-describedby="input-error char-count"
+          spellcheck="false"
+          autocomplete="off"
+        ></textarea>
+
+        <!-- Error & counter -->
+        <div class="flex items-center justify-between mt-2">
+          <p id="input-error" class="hidden" role="alert"></p>
+          <span id="char-count" class="text-xs text-gray-400 ml-auto">0 karakter</span>
+        </div>
+
+        <!-- Tombol aksi utama -->
+        <div class="flex flex-wrap gap-2 mt-4">
+          <button id="btn-analyze" class="btn-primary flex-1 sm:flex-none" type="button"
+                  aria-label="Analisis error log">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
+              <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.099zm-5.242 1.656a5.5 5.5 0 1 1 0-11 5.5 5.5 0 0 1 0 11z"/>
+            </svg>
+            Analisis
+          </button>
+          <button id="btn-clear" class="btn-secondary" type="button"
+                  aria-label="Bersihkan textarea dan hasil analisis">
+            🗑️ Bersihkan
+          </button>
+          <button id="btn-copy" class="btn-secondary" type="button"
+                  aria-label="Salin ringkasan hasil analisis ke clipboard">
+            📋 Salin Hasil
+          </button>
+          <button id="btn-sample-large" class="btn-secondary" type="button"
+                  aria-label="Muat contoh log besar (100+ baris)">
+            📂 Contoh Log Besar
+          </button>
+        </div>
+
+        <!-- Hint keyboard shortcut -->
+        <p class="text-xs text-gray-400 mt-2">
+          💡 Tips: tekan <kbd class="bg-gray-100 border border-gray-300 rounded px-1 py-0.5 text-xs">Ctrl</kbd> +
+          <kbd class="bg-gray-100 border border-gray-300 rounded px-1 py-0.5 text-xs">Enter</kbd> untuk analisis cepat.
+        </p>
+      </section>
+
+      <!-- ── Preview Log ──────────────────────────────────────────────── -->
+      <section class="hidden" id="log-preview-section" aria-label="Preview log dengan highlight">
+        <div class="log-preview-wrapper">
+          <div class="log-preview-header">
+            <div class="log-preview-dots">
+              <span style="background:#ff5f57"></span>
+              <span style="background:#febc2e"></span>
+              <span style="background:#28c840"></span>
+            </div>
+            <span>error.log</span>
+          </div>
+          <code id="log-preview" aria-label="Preview error log dengan baris yang di-highlight"></code>
+        </div>
+      </section>
+
+      <!-- ── Analisis Log Besar ──────────────────────────────────────── -->
+      <section id="lp-section" class="hidden" aria-label="Analisis log besar" aria-live="polite">
+
+        <!-- Bar switch mode -->
+        <div class="lp-mode-bar">
+          <span class="text-sm font-semibold text-blue-700">📊 Mode Analisis Log Besar</span>
+          <button id="btn-toggle-view" class="btn-secondary text-xs py-1 px-3"
+                  type="button" aria-label="Beralih ke tampilan analisis biasa">
+            ← Tampilan Biasa
+          </button>
+        </div>
+
+        <!-- Ringkasan statistik -->
+        <div id="lp-summary" class="lp-summary" aria-label="Ringkasan statistik log"></div>
+
+        <!-- Timeline (disembunyikan jika tidak ada timestamp) -->
+        <div id="lp-timeline" class="hidden"></div>
+
+        <!-- Filter & Sort bar -->
+        <div class="lp-filter-bar">
+          <!-- Filter level -->
+          <div class="lp-filter-group" role="group" aria-label="Filter berdasarkan level">
+            <span class="lp-filter-label">Level:</span>
+            <button class="lp-filter-btn active" data-level="ALL"   onclick="lpClickFilterBtn(this)">Semua</button>
+            <button class="lp-filter-btn"         data-level="WARN"  onclick="lpClickFilterBtn(this)">WARN</button>
+            <button class="lp-filter-btn"         data-level="ERROR" onclick="lpClickFilterBtn(this)">ERROR</button>
+            <button class="lp-filter-btn"         data-level="FATAL" onclick="lpClickFilterBtn(this)">FATAL</button>
+          </div>
+          <!-- Sort -->
+          <div class="lp-filter-group" role="group" aria-label="Urutan tampilan">
+            <span class="lp-filter-label">Urut:</span>
+            <button class="lp-sort-btn active" data-sort="frequency" onclick="lpSetSort('frequency')">Paling Sering</button>
+            <button class="lp-sort-btn"        data-sort="newest"    onclick="lpSetSort('newest')">Paling Baru</button>
+            <button class="lp-sort-btn"        data-sort="severity"  onclick="lpSetSort('severity')">Severity</button>
+          </div>
+          <!-- Pencarian -->
+          <label for="lp-search" class="sr-only">Cari dalam log</label>
+          <input id="lp-search" type="search" class="lp-search-input"
+                 placeholder="🔎 Cari dalam log…"
+                 aria-label="Cari teks dalam log"
+                 oninput="lpApplyFilter()" />
+        </div>
+
+        <!-- Heading daftar kelompok -->
+        <div class="flex items-center justify-between">
+          <h3 class="section-title flex-1"><span>🗂</span> Kelompok Error</h3>
+        </div>
+
+        <!-- Daftar kartu kelompok error -->
+        <div id="lp-groups" class="flex flex-col gap-2" role="list" aria-label="Daftar kelompok error"></div>
+
+        <!-- Pesan kosong -->
+        <p id="lp-empty" class="hidden text-sm text-gray-400 text-center py-4">
+          Tidak ada error yang cocok dengan filter ini.
+        </p>
+
+        <!-- Tombol tampilkan lebih banyak -->
+        <div class="flex justify-center">
+          <button id="lp-show-more" class="btn-secondary hidden" type="button"
+                  onclick="lpRenderGroups(false)"
+                  aria-label="Tampilkan lebih banyak kelompok error">
+            Tampilkan lebih banyak
+          </button>
+        </div>
+
+      </section>
+
+      <!-- ── Hasil Analisis ───────────────────────────────────────────── -->
+      <section id="results-section" class="hidden flex flex-col gap-4"
+               aria-live="polite" aria-label="Hasil analisis error log">
+
+        <!-- Header ringkasan -->
+        <div class="flex items-center justify-between">
+          <h2 class="section-title flex-1">
+            <span>📊</span> Hasil Analisis
+          </h2>
+          <p id="results-summary" class="text-sm text-gray-500 ml-4"></p>
+        </div>
+
+        <!-- Container cards hasil -->
+        <div id="results-container" class="flex flex-col gap-4" role="region" aria-label="Daftar error yang ditemukan">
+          <!-- Diisi oleh script.js -->
+        </div>
+      </section>
+
+    </div><!-- ── Akhir Kolom Kiri ── -->
+
+    <!-- ════ Kolom Kanan: Riwayat ══════════════════════════════════════════ -->
+    <aside class="flex flex-col gap-4" aria-label="Riwayat analisis">
+
+      <!-- ── Card Riwayat ─────────────────────────────────────────────── -->
+      <section id="history-section" class="card p-4 hidden" aria-labelledby="history-heading">
+        <div class="flex items-center justify-between mb-3">
+          <h2 id="history-heading" class="font-bold text-sm text-gray-700 flex items-center gap-1.5">
+            🕓 Riwayat Analisis
+          </h2>
+          <button id="btn-clear-history" class="text-xs text-red-400 hover:text-red-600 transition-colors"
+                  type="button" aria-label="Hapus semua riwayat analisis">
+            Hapus semua
+          </button>
+        </div>
+        <ul id="history-list" class="flex flex-col gap-2" role="list" aria-label="Daftar riwayat analisis"></ul>
+        <p class="text-xs text-gray-400 mt-2 text-center">Tersimpan maks. 5 analisis terakhir</p>
+      </section>
+
+      <!-- ── Card Panduan Cepat ────────────────────────────────────────── -->
+      <section class="card p-4" aria-labelledby="guide-heading">
+        <h2 id="guide-heading" class="font-bold text-sm text-gray-700 mb-3 flex items-center gap-1.5">
+          📖 Panduan Cepat
+        </h2>
+        <ol class="text-xs text-gray-600 space-y-2 list-none">
+          <li class="flex gap-2 items-start">
+            <span class="step-num" style="min-width:1.4rem">1</span>
+            Pilih bahasa error atau biarkan Auto-detect.
+          </li>
+          <li class="flex gap-2 items-start">
+            <span class="step-num" style="min-width:1.4rem">2</span>
+            Tempel error log dari terminal atau browser console ke textarea.
+          </li>
+          <li class="flex gap-2 items-start">
+            <span class="step-num" style="min-width:1.4rem">3</span>
+            Klik <strong>Analisis</strong> atau tekan Ctrl+Enter.
+          </li>
+          <li class="flex gap-2 items-start">
+            <span class="step-num" style="min-width:1.4rem">4</span>
+            Baca penjelasan, penyebab, dan ikuti langkah perbaikan.
+          </li>
+          <li class="flex gap-2 items-start">
+            <span class="step-num" style="min-width:1.4rem">5</span>
+            Gunakan <strong>Salin Hasil</strong> untuk berbagi temuan dengan tim.
+          </li>
+        </ol>
+
+        <!-- Badge bahasa yang didukung -->
+        <div class="mt-4 pt-3 border-t border-gray-100">
+          <p class="text-xs text-gray-400 mb-2">Bahasa yang didukung:</p>
+          <div class="flex flex-wrap gap-1">
+            <span class="lang-badge">JS</span>
+            <span class="lang-badge">Python</span>
+            <span class="lang-badge">Java</span>
+            <span class="lang-badge">C++</span>
+            <span class="lang-badge">SQL</span>
+            <span class="lang-badge">HTTP</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── Card Statistik Error ─────────────────────────────────────── -->
+      <section class="card p-4" aria-labelledby="severity-guide-heading">
+        <h2 id="severity-guide-heading" class="font-bold text-sm text-gray-700 mb-3">
+          ⚡ Tingkat Keparahan
+        </h2>
+        <div class="flex flex-col gap-2 text-xs">
+          <div class="flex items-center gap-2">
+            <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold border bg-green-100 text-green-800 border-green-200">✓ Low</span>
+            <span class="text-gray-500">Tidak menghentikan program, perlu diperbaiki.</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold border bg-yellow-100 text-yellow-800 border-yellow-200">⚠ Medium</span>
+            <span class="text-gray-500">Fungsionalitas terdampak, segera perbaiki.</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold border bg-red-100 text-red-800 border-red-200">✕ High</span>
+            <span class="text-gray-500">Program crash atau data rusak, prioritas tinggi.</span>
+          </div>
+        </div>
+      </section>
+
+    </aside><!-- ── Akhir Kolom Kanan ── -->
+
+  </main>
+  </div><!-- ── Akhir tab-analyzer ── -->
+
+  <!-- ─── Tab Panel: Code Fixer ──────────────────────────────────────────── -->
+  <div id="tab-fixer" class="app-tab-panel hidden" data-tab-panel="fixer"
+       role="tabpanel" aria-label="Panel Code Fixer" aria-hidden="true">
+    <div class="max-w-5xl mx-auto px-4 py-6">
+
+      <!-- Layout dua kolom: Input kiri, Hasil kanan -->
+      <div class="cf-layout">
+
+        <!-- ── Kolom Kiri: Input ───────────────────────────────────────── -->
+        <div class="cf-col-input flex flex-col gap-4">
+
+          <!-- Card input kode -->
+          <section class="card p-5" aria-labelledby="cf-code-heading">
+            <div class="flex flex-wrap items-center justify-between gap-3 mb-3">
+              <h2 id="cf-code-heading" class="section-title flex-1">
+                <span>📝</span> Kode
+              </h2>
+              <!-- Dropdown bahasa -->
+              <select id="cf-lang-select" class="lang-select" aria-label="Pilih bahasa pemrograman">
+                <option value="javascript">⚡ JavaScript</option>
+                <option value="python">🐍 Python</option>
+                <option value="java">☕ Java</option>
+                <option value="cpp">⚙️ C++</option>
+              </select>
+              <button onclick="cfLoadExample()" class="btn-orange text-xs" type="button"
+                      aria-label="Muat contoh kode dan log">
+                📦 Contoh
+              </button>
+            </div>
+            <!-- Textarea kode dengan nomor baris -->
+            <div class="cf-code-wrapper">
+              <pre id="cf-line-numbers" class="cf-line-nums" aria-hidden="true">1</pre>
+              <label for="cf-code-input" class="sr-only">Tempel kode di sini</label>
+              <textarea
+                id="cf-code-input"
+                class="cf-code-textarea"
+                placeholder="Tempel kode di sini…"
+                spellcheck="false"
+                autocomplete="off"
+                aria-label="Textarea kode sumber"
+              ></textarea>
+            </div>
+          </section>
+
+          <!-- Card error log -->
+          <section class="card p-5" aria-labelledby="cf-log-heading">
+            <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+              <h2 id="cf-log-heading" class="section-title flex-1">
+                <span>🪲</span> Error Log
+              </h2>
+              <button id="cf-use-last-log" class="btn-secondary text-xs" type="button"
+                      aria-label="Pakai log dari hasil analisis terakhir">
+                ⚡ Pakai log dari analisis terakhir
+              </button>
+            </div>
+            <label for="cf-log-input" class="sr-only">Tempel error log di sini</label>
+            <textarea
+              id="cf-log-input"
+              class="log-textarea"
+              style="min-height:100px"
+              placeholder="Tempel pesan error di sini…"
+              spellcheck="false"
+              autocomplete="off"
+              aria-label="Textarea error log"
+            ></textarea>
+          </section>
+
+          <!-- Tombol aksi -->
+          <div class="flex flex-wrap gap-2">
+            <button id="cf-analyze-btn" class="btn-primary flex-1 sm:flex-none" type="button"
+                    aria-label="Analisis kode dan error log">
+              🔍 Analisis &amp; Perbaiki
+            </button>
+            <button id="cf-clear-btn" class="btn-secondary" type="button"
+                    aria-label="Bersihkan semua input Code Fixer">
+              🗑️ Bersihkan
+            </button>
+          </div>
+          <p class="text-xs text-gray-400">
+            💡 Tekan <kbd class="bg-gray-100 border border-gray-300 rounded px-1 py-0.5 text-xs">Ctrl</kbd>+<kbd class="bg-gray-100 border border-gray-300 rounded px-1 py-0.5 text-xs">Enter</kbd> untuk analisis cepat.
+          </p>
+        </div><!-- ── Akhir Kolom Kiri ── -->
+
+        <!-- ── Kolom Kanan: Hasil ──────────────────────────────────────── -->
+        <div class="cf-col-result flex flex-col gap-4">
+
+          <!-- Konteks kode (hidden sampai ada hasil) -->
+          <section class="card hidden" aria-labelledby="cf-context-label" aria-live="polite">
+            <div class="log-preview-wrapper">
+              <div class="log-preview-header">
+                <div class="log-preview-dots">
+                  <span style="background:#ff5f57"></span>
+                  <span style="background:#febc2e"></span>
+                  <span style="background:#28c840"></span>
+                </div>
+                <span id="cf-context-label">📍 Konteks kode</span>
+              </div>
+              <pre id="cf-context" class="cf-context-pre" aria-label="Potongan kode dengan highlight baris error"></pre>
+            </div>
+          </section>
+
+          <!-- Area hasil analisis + saran (hidden sampai ada hasil) -->
+          <section id="cf-result" class="card p-4 hidden flex flex-col gap-3"
+                   aria-live="polite" aria-label="Hasil analisis dan saran perbaikan">
+          </section>
+
+          <!-- Area diff + aksi (dalam cf-result) -->
+          <div id="cf-diff" class="hidden"></div>
+          <div id="cf-actions" class="hidden"></div>
+
+        </div><!-- ── Akhir Kolom Kanan ── -->
+
+      </div><!-- ── Akhir cf-layout ── -->
+    </div>
+  </div><!-- ── Akhir tab-fixer ── -->
+
+  <!-- ─── Footer ──────────────────────────────────────────────────────────── -->
+  <footer class="mt-8 py-6 border-t border-gray-200 text-center" role="contentinfo">
+    <p class="text-sm text-gray-400">
+      <strong class="text-gray-600">Error Log Explainer</strong> ·
+      Capstone IT Track — AI Agent for Programming ·
+      <span class="text-gray-400">Tanpa framework, tanpa API eksternal</span>
+    </p>
+    <p class="text-xs text-gray-300 mt-1">
+      Dibuat dengan ❤️ menggunakan HTML, Tailwind CSS, dan Vanilla JavaScript
+    </p>
+  </footer>
+
+  <!-- ─── Debug Buddy Chatbot Widget ─────────────────────────────────────── -->
+
+  <!-- Tombol mengambang untuk membuka/menutup chat -->
+  <button
+    id="chat-toggle-btn"
+    class="chat-toggle-btn"
+    aria-label="Buka Debug Buddy chatbot"
+    aria-expanded="false"
+    aria-controls="chat-panel"
+    title="Debug Buddy — Asisten Debugging"
+  >
+    <svg id="chat-icon-open" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
+      <path d="M16 8c0 3.866-3.582 7-8 7a9.06 9.06 0 0 1-2.347-.306c-.584.296-1.925.864-4.181 1.234-.2.032-.352-.176-.273-.362.354-.836.674-1.95.77-2.966C.744 11.37 0 9.76 0 8c0-3.866 3.582-7 8-7s8 3.134 8 7zM5 8a1 1 0 1 0-2 0 1 1 0 0 0 2 0zm4 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0zm3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
+    </svg>
+    <svg id="chat-icon-close" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true" class="hidden">
+      <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+    </svg>
+    <!-- Titik merah: ada pesan belum dibaca -->
+    <span id="chat-unread-dot" class="chat-unread-dot hidden" aria-hidden="true"></span>
+  </button>
+
+  <!-- Panel chat -->
+  <section
+    id="chat-panel"
+    class="chat-panel chat-panel-hidden"
+    aria-label="Debug Buddy — Asisten Debugging"
+    aria-hidden="true"
+    role="complementary"
+  >
+    <!-- Header panel -->
+    <header class="chat-header">
+      <div class="chat-header-info">
+        <span class="chat-avatar" aria-hidden="true">🤖</span>
+        <div>
+          <p class="chat-header-name">Debug Buddy</p>
+          <p class="chat-header-status">Asisten Debugging · Selalu Online</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-1">
+        <!-- Tombol hapus riwayat -->
+        <button id="chat-clear-btn" class="chat-icon-btn" title="Hapus riwayat chat"
+                aria-label="Hapus riwayat chat">
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
+            <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+            <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+          </svg>
+        </button>
+        <!-- Tombol tutup -->
+        <button id="chat-close-btn" class="chat-icon-btn" title="Tutup chat"
+                aria-label="Tutup panel chat">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
+            <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Area pesan -->
+    <div
+      id="chat-messages"
+      class="chat-messages"
+      role="log"
+      aria-live="polite"
+      aria-label="Percakapan dengan Debug Buddy"
+      aria-relevant="additions"
+    ></div>
+
+    <!-- Input area -->
+    <footer class="chat-input-area">
+      <label for="chat-input" class="sr-only">Ketik pesan ke Debug Buddy</label>
+      <textarea
+        id="chat-input"
+        class="chat-textarea"
+        placeholder="Tanya Debug Buddy… (Enter untuk kirim)"
+        rows="1"
+        aria-label="Pesan ke Debug Buddy"
+        autocomplete="off"
+        spellcheck="false"
+      ></textarea>
+      <button id="chat-send-btn" class="chat-send-btn" aria-label="Kirim pesan">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
+          <path d="M15.964.686a.5.5 0 0 0-.65-.65L.767 5.855H.766l-.452.18a.5.5 0 0 0-.082.887l.41.26.001.002 4.995 3.178 3.178 4.995.002.002.26.41a.5.5 0 0 0 .886-.083l6-15Zm-1.833 1.89L6.637 10.07l-.215-.338a.5.5 0 0 0-.154-.154l-.338-.215 7.494-7.494 1.178-.471-.47 1.178Z"/>
+        </svg>
+      </button>
+    </footer>
+  </section>
+
+  <!-- ─── Scripts ─────────────────────────────────────────────────────────── -->
+  <!-- rules.js harus dimuat sebelum script.js karena menyediakan ERROR_RULES dan GENERAL_DEBUG_TIPS -->
+  <script src="rules.js"></script>
+  <!-- logParser.js dimuat sebelum script.js agar lpRender() tersedia saat analisis dijalankan -->
+  <script src="logParser.js"></script>
+  <script src="script.js"></script>
+  <!-- chatbot.js bergantung pada DOM, ERROR_RULES, dan window.lastAnalysis -->
+  <script src="chatbot.js"></script>
+  <!-- codeFixer.js dimuat terakhir agar extractFileInfo, showToast, openChat, sendMessage tersedia -->
+  <script src="codeFixer.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,1544 @@
+/**
+ * style.css — Error Log Explainer
+ * Tambahan style di luar Tailwind CSS: komponen kustom, animasi, dan blok kode.
+ */
+
+/* ─── Custom Properties ────────────────────────────────────────────────────── */
+:root {
+  --blue-primary:   #2563eb;
+  --blue-light:     #eff6ff;
+  --orange-accent:  #f97316;
+  --orange-light:   #fff7ed;
+  --shadow-card:    0 2px 12px rgba(0, 0, 0, 0.08);
+  --shadow-hover:   0 6px 24px rgba(37, 99, 235, 0.14);
+  --radius-card:    0.875rem;
+  --transition:     all 0.2s ease;
+}
+
+/* ─── Base ──────────────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  font-family: -apple-system, "Segoe UI", system-ui, sans-serif;
+  background: #f8fafc;
+  color: #1e293b;
+  line-height: 1.65;
+  min-height: 100vh;
+}
+
+/* ─── Scrollbar kustom ──────────────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 8px; }
+::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 8px; }
+::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+/* ─── Header branding ───────────────────────────────────────────────────────── */
+.site-header {
+  background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 60%, #3b82f6 100%);
+  padding: 2rem 1rem;
+  text-align: center;
+}
+
+.site-header h1 {
+  font-size: clamp(1.5rem, 4vw, 2.25rem);
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  margin-bottom: 0.5rem;
+}
+
+.site-header p {
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 0.975rem;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.header-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  margin-bottom: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* ─── Card container ────────────────────────────────────────────────────────── */
+.card {
+  background: #ffffff;
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  border: 1px solid #e2e8f0;
+  transition: var(--transition);
+}
+
+.card:hover {
+  box-shadow: var(--shadow-hover);
+  border-color: #bfdbfe;
+}
+
+/* ─── Tombol utama ──────────────────────────────────────────────────────────── */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  background: var(--blue-primary);
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.9rem;
+  padding: 0.625rem 1.25rem;
+  border-radius: 0.625rem;
+  border: none;
+  cursor: pointer;
+  transition: var(--transition);
+  white-space: nowrap;
+}
+
+.btn-primary:hover  { background: #1d4ed8; transform: translateY(-1px); box-shadow: 0 4px 14px rgba(37,99,235,0.35); }
+.btn-primary:active { transform: translateY(0); }
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  background: #fff;
+  color: #374151;
+  font-weight: 500;
+  font-size: 0.875rem;
+  padding: 0.562rem 1.1rem;
+  border-radius: 0.625rem;
+  border: 1px solid #d1d5db;
+  cursor: pointer;
+  transition: var(--transition);
+  white-space: nowrap;
+}
+
+.btn-secondary:hover  { background: #f9fafb; border-color: #9ca3af; }
+.btn-secondary:active { background: #f3f4f6; }
+
+.btn-orange {
+  background: var(--orange-accent);
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.875rem;
+  padding: 0.562rem 1.1rem;
+  border-radius: 0.625rem;
+  border: none;
+  cursor: pointer;
+  transition: var(--transition);
+  white-space: nowrap;
+}
+
+.btn-orange:hover  { background: #ea6c0a; transform: translateY(-1px); }
+.btn-orange:active { transform: translateY(0); }
+
+/* ─── Textarea input log ────────────────────────────────────────────────────── */
+.log-textarea {
+  width: 100%;
+  min-height: 180px;
+  padding: 0.875rem 1rem;
+  font-family: "Fira Code", "Cascadia Code", "Consolas", "Courier New", monospace;
+  font-size: 0.82rem;
+  line-height: 1.7;
+  background: #0f172a;
+  color: #e2e8f0;
+  border-radius: 0.625rem;
+  border: 2px solid #1e293b;
+  resize: vertical;
+  transition: border-color 0.2s;
+  caret-color: #60a5fa;
+}
+
+.log-textarea::placeholder { color: #475569; }
+.log-textarea:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+
+/* ─── Dropdown bahasa ───────────────────────────────────────────────────────── */
+.lang-select {
+  appearance: none;
+  background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") no-repeat right 0.75rem center;
+  padding: 0.562rem 2.25rem 0.562rem 0.875rem;
+  border-radius: 0.625rem;
+  border: 1px solid #d1d5db;
+  font-size: 0.875rem;
+  color: #374151;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.lang-select:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59,130,246,0.15);
+}
+
+/* ─── Log preview (blok monospace) ─────────────────────────────────────────── */
+.log-preview-wrapper {
+  background: #0f172a;
+  border-radius: 0.625rem;
+  border: 1px solid #1e293b;
+  overflow: hidden;
+}
+
+.log-preview-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.875rem;
+  background: #1e293b;
+  border-bottom: 1px solid #334155;
+  font-size: 0.75rem;
+  color: #94a3b8;
+}
+
+.log-preview-dots span {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-right: 4px;
+}
+
+#log-preview {
+  display: block;
+  white-space: pre;
+  overflow-x: auto;
+  padding: 0.875rem 1rem;
+  font-family: "Fira Code", "Cascadia Code", "Consolas", monospace;
+  font-size: 0.78rem;
+  line-height: 1.75;
+  color: #cbd5e1;
+  max-height: 220px;
+  overflow-y: auto;
+}
+
+.log-line { display: block; }
+
+.log-line-num {
+  display: inline-block;
+  width: 3ch;
+  color: #475569;
+  user-select: none;
+  margin-right: 0.75rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.log-line-error {
+  background: rgba(239, 68, 68, 0.12);
+  color: #fca5a5;
+  border-left: 3px solid #ef4444;
+  padding-left: 4px;
+}
+
+/* ─── Result cards ──────────────────────────────────────────────────────────── */
+.result-card {
+  background: #ffffff;
+  border-radius: var(--radius-card);
+  border: 1px solid #e2e8f0;
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+  transition: box-shadow 0.2s, border-color 0.2s;
+}
+
+.result-card:hover {
+  box-shadow: var(--shadow-hover);
+  border-color: #bfdbfe;
+}
+
+.unknown-error-card { border-left: 4px solid var(--orange-accent); }
+
+.result-card-header {
+  padding: 1rem 1.25rem 0.875rem;
+  border-bottom: 1px solid #f1f5f9;
+  background: var(--blue-light);
+}
+
+.result-error-name {
+  font-size: 0.975rem;
+  font-weight: 700;
+  color: #1e3a8a;
+  font-family: "Fira Code", "Cascadia Code", monospace;
+  word-break: break-word;
+}
+
+.result-card-body {
+  padding: 1rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.result-section { display: flex; flex-direction: column; gap: 0.5rem; }
+
+.result-section-title {
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #475569;
+}
+
+/* Badge bahasa di header card */
+.lang-badge {
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 0.15rem 0.45rem;
+  border-radius: 0.3rem;
+  background: #dbeafe;
+  color: #1d4ed8;
+  letter-spacing: 0.03em;
+}
+
+/* Info file/baris */
+.file-info-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-top: 0.5rem;
+  padding: 0.25rem 0.6rem;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.4rem;
+  font-size: 0.75rem;
+  color: #64748b;
+}
+
+.file-info-badge code {
+  font-family: monospace;
+  color: #0f766e;
+  background: #f0fdf4;
+  padding: 0.05rem 0.3rem;
+  border-radius: 0.2rem;
+}
+
+/* ─── Langkah perbaikan ─────────────────────────────────────────────────────── */
+.steps-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.result-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.625rem;
+  font-size: 0.875rem;
+  color: #374151;
+  line-height: 1.55;
+}
+
+.step-num {
+  flex-shrink: 0;
+  width: 1.4rem;
+  height: 1.4rem;
+  background: var(--blue-primary);
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 700;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 0.1rem;
+}
+
+/* ─── Blok kode perbaikan ───────────────────────────────────────────────────── */
+.code-block {
+  background: #0f172a;
+  color: #e2e8f0;
+  border-radius: 0.5rem;
+  padding: 0.875rem 1rem;
+  font-family: "Fira Code", "Cascadia Code", "Consolas", monospace;
+  font-size: 0.78rem;
+  line-height: 1.75;
+  overflow-x: auto;
+  border: 1px solid #1e293b;
+  white-space: pre;
+  tab-size: 2;
+}
+
+/* Syntax highlight sederhana via CSS */
+.code-block .comment { color: #64748b; }
+
+/* ─── History sidebar ───────────────────────────────────────────────────────── */
+.history-item {
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.625rem;
+  overflow: hidden;
+  transition: border-color 0.2s;
+}
+
+.history-item:hover { border-color: #bfdbfe; }
+
+.history-load-btn {
+  flex: 1;
+  text-align: left;
+  padding: 0.625rem 0.75rem;
+  background: #fff;
+  border: none;
+  cursor: pointer;
+  font-size: 0.8rem;
+  transition: background 0.15s;
+  min-width: 0;
+}
+
+.history-load-btn:hover { background: var(--blue-light); }
+
+.history-preview {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: #1e293b;
+  font-family: monospace;
+  font-size: 0.77rem;
+}
+
+.history-badge {
+  flex-shrink: 0;
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 0.1rem 0.4rem;
+  border-radius: 0.3rem;
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+.history-meta {
+  display: flex;
+  gap: 0.3rem;
+  color: #94a3b8;
+  font-size: 0.72rem;
+  margin-top: 0.2rem;
+}
+
+.history-delete-btn {
+  padding: 0 0.6rem;
+  background: #fff;
+  border: none;
+  border-left: 1px solid #e2e8f0;
+  color: #94a3b8;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+  line-height: 1;
+}
+
+.history-delete-btn:hover { background: #fef2f2; color: #ef4444; }
+
+/* ─── Animasi ───────────────────────────────────────────────────────────────── */
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.animate-slide-in {
+  animation: slideIn 0.3s ease both;
+}
+
+/* ─── Toast notifikasi ──────────────────────────────────────────────────────── */
+#toast {
+  position: fixed;
+  bottom: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%) translateY(1rem);
+  background: #1e293b;
+  color: #fff;
+  padding: 0.625rem 1.25rem;
+  border-radius: 2rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+  z-index: 9999;
+  pointer-events: none;
+  white-space: nowrap;
+  transition: opacity 0.25s, transform 0.25s;
+}
+
+#toast.opacity-0    { opacity: 0; }
+#toast.translate-y-4 { transform: translateX(-50%) translateY(1.5rem); }
+#toast.opacity-100  { opacity: 1; }
+#toast.translate-y-0 { transform: translateX(-50%) translateY(0); }
+
+/* ─── Input error message ───────────────────────────────────────────────────── */
+#input-error {
+  color: #dc2626;
+  font-size: 0.8rem;
+  margin-top: 0.375rem;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+#input-error::before { content: "⚠ "; }
+
+/* ─── Section divider ───────────────────────────────────────────────────────── */
+.section-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #1e293b;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.section-title::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: #e2e8f0;
+  margin-left: 0.5rem;
+}
+
+/* ─── Responsive ────────────────────────────────────────────────────────────── */
+@media (max-width: 640px) {
+  .btn-primary, .btn-secondary, .btn-orange {
+    font-size: 0.82rem;
+    padding: 0.5rem 0.875rem;
+  }
+
+  .result-card-body { padding: 0.875rem 1rem; }
+  .result-card-header { padding: 0.875rem 1rem; }
+  .log-textarea { min-height: 140px; }
+}
+
+/* ─── Print styles ──────────────────────────────────────────────────────────── */
+@media print {
+  .site-header { background: #1e3a8a !important; }
+  .btn-primary, .btn-secondary, .btn-orange { display: none !important; }
+  #toast { display: none !important; }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   DEBUG BUDDY — Chat Widget Styles
+   Ditambahkan di bawah style utama; tidak mengubah layout atau fitur lain.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ─── Tombol mengambang (FAB) ───────────────────────────────────────────────── */
+.chat-toggle-btn {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  z-index: 1000;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--blue-primary);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 18px rgba(37, 99, 235, 0.45);
+  transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+}
+
+.chat-toggle-btn:hover  { background: #1d4ed8; transform: scale(1.08); }
+.chat-toggle-btn:active { transform: scale(0.96); }
+
+/* Titik merah: pesan belum dibaca */
+.chat-unread-dot {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 10px;
+  height: 10px;
+  background: var(--orange-accent);
+  border-radius: 50%;
+  border: 2px solid #fff;
+  animation: pulse 1.6s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50%       { transform: scale(1.3); opacity: 0.75; }
+}
+
+/* ─── Panel chat ────────────────────────────────────────────────────────────── */
+.chat-panel {
+  position: fixed;
+  bottom: calc(1.5rem + 56px + 0.75rem); /* di atas tombol FAB */
+  right: 1.5rem;
+  z-index: 999;
+  width: 360px;
+  max-height: 540px;
+  background: #fff;
+  border-radius: 1rem;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.14);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: opacity 0.2s, transform 0.25s;
+  transform-origin: bottom right;
+}
+
+/* State tersembunyi — gunakan visibility agar tidak mengganggu tab-focus */
+.chat-panel-hidden {
+  opacity: 0;
+  transform: scale(0.92) translateY(12px);
+  pointer-events: none;
+  visibility: hidden;
+}
+
+/* ─── Header panel ──────────────────────────────────────────────────────────── */
+.chat-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.chat-header-info {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+}
+
+.chat-avatar {
+  font-size: 1.4rem;
+  line-height: 1;
+}
+
+.chat-header-name {
+  font-weight: 700;
+  font-size: 0.9rem;
+  line-height: 1.2;
+  margin: 0;
+}
+
+.chat-header-status {
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.75);
+  margin: 0;
+}
+
+.chat-icon-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.chat-icon-btn:hover { background: rgba(255, 255, 255, 0.25); }
+
+/* ─── Area pesan ────────────────────────────────────────────────────────────── */
+.chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0.875rem 0.875rem 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+  background: #f8fafc;
+  scroll-behavior: smooth;
+}
+
+/* Scrollbar ringkas di area pesan */
+.chat-messages::-webkit-scrollbar { width: 4px; }
+.chat-messages::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+
+/* ─── Gelembung pesan ───────────────────────────────────────────────────────── */
+.chat-msg-wrapper {
+  display: flex;
+  flex-direction: column;
+  max-width: 88%;
+  animation: bubbleIn 0.2s ease both;
+}
+
+@keyframes bubbleIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.chat-msg-user {
+  align-self: flex-end;
+  align-items: flex-end;
+}
+
+.chat-msg-bot {
+  align-self: flex-start;
+  align-items: flex-start;
+}
+
+.chat-bubble {
+  padding: 0.6rem 0.875rem;
+  border-radius: 1rem;
+  font-size: 0.84rem;
+  line-height: 1.6;
+  word-break: break-word;
+}
+
+/* Gelembung user — biru */
+.chat-bubble-user {
+  background: var(--blue-primary);
+  color: #fff;
+  border-bottom-right-radius: 0.25rem;
+}
+
+/* Gelembung bot — putih dengan border */
+.chat-bubble-bot {
+  background: #fff;
+  color: #1e293b;
+  border: 1px solid #e2e8f0;
+  border-bottom-left-radius: 0.25rem;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+}
+
+/* Kode inline di dalam gelembung bot */
+.chat-inline-code {
+  font-family: "Fira Code", "Cascadia Code", "Consolas", monospace;
+  font-size: 0.78em;
+  background: #f1f5f9;
+  color: #0f766e;
+  padding: 0.1em 0.3em;
+  border-radius: 0.25em;
+  border: 1px solid #e2e8f0;
+}
+
+/* Blok kode di dalam gelembung bot */
+.chat-code-block {
+  background: #0f172a;
+  color: #e2e8f0;
+  border-radius: 0.5rem;
+  padding: 0.625rem 0.75rem;
+  font-family: "Fira Code", "Cascadia Code", "Consolas", monospace;
+  font-size: 0.75rem;
+  line-height: 1.7;
+  overflow-x: auto;
+  margin: 0.4rem 0 0;
+  white-space: pre;
+}
+
+/* ─── Animasi mengetik (typing indicator) ───────────────────────────────────── */
+.chat-typing {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 0.625rem 0.875rem;
+  min-width: 56px;
+}
+
+.typing-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #94a3b8;
+  display: inline-block;
+  animation: typingBounce 1.2s infinite ease-in-out;
+}
+
+.typing-dot:nth-child(1) { animation-delay: 0s; }
+.typing-dot:nth-child(2) { animation-delay: 0.18s; }
+.typing-dot:nth-child(3) { animation-delay: 0.36s; }
+
+@keyframes typingBounce {
+  0%, 80%, 100% { transform: translateY(0); opacity: 0.5; }
+  40%           { transform: translateY(-5px); opacity: 1; }
+}
+
+/* ─── Quick reply chips ─────────────────────────────────────────────────────── */
+.chat-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.375rem;
+  margin-top: 0.4rem;
+  padding-left: 0.1rem;
+}
+
+.chat-chip {
+  font-size: 0.74rem;
+  font-weight: 500;
+  padding: 0.3rem 0.65rem;
+  border-radius: 999px;
+  border: 1px solid #bfdbfe;
+  background: #eff6ff;
+  color: #1d4ed8;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s, transform 0.1s;
+  white-space: nowrap;
+}
+
+.chat-chip:hover  { background: #dbeafe; border-color: #93c5fd; transform: translateY(-1px); }
+.chat-chip:active { transform: translateY(0); }
+
+/* ─── Input area ────────────────────────────────────────────────────────────── */
+.chat-input-area {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.5rem;
+  padding: 0.625rem 0.75rem;
+  border-top: 1px solid #e2e8f0;
+  background: #fff;
+  flex-shrink: 0;
+}
+
+.chat-textarea {
+  flex: 1;
+  resize: none;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.75rem;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.84rem;
+  font-family: inherit;
+  line-height: 1.5;
+  max-height: 96px;
+  overflow-y: auto;
+  transition: border-color 0.2s;
+  background: #f8fafc;
+  color: #1e293b;
+}
+
+.chat-textarea::placeholder { color: #94a3b8; }
+.chat-textarea:focus {
+  outline: none;
+  border-color: #3b82f6;
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
+
+.chat-send-btn {
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--blue-primary);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s, transform 0.15s;
+}
+
+.chat-send-btn:hover  { background: #1d4ed8; transform: scale(1.08); }
+.chat-send-btn:active { transform: scale(0.94); }
+
+/* ─── Responsive: mobile (hampir layar penuh) ───────────────────────────────── */
+@media (max-width: 480px) {
+  .chat-panel {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    width: 100%;
+    max-height: 80vh;
+    border-radius: 1rem 1rem 0 0;
+    border-bottom: none;
+  }
+
+  .chat-toggle-btn {
+    bottom: 1rem;
+    right: 1rem;
+  }
+}
+
+/* Sembunyikan widget saat print */
+@media print {
+  .chat-toggle-btn, .chat-panel { display: none !important; }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   ANALISIS LOG BESAR — logParser.js styles
+   Tidak mengubah style komponen yang sudah ada.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ─── Mode bar (banner switch mode) ────────────────────────────────────────── */
+.lp-mode-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  border-radius: 0.625rem;
+  padding: 0.625rem 1rem;
+  margin-bottom: 0.5rem;
+}
+
+/* ─── Summary grid ──────────────────────────────────────────────────────────── */
+.lp-summary {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  padding: 1rem;
+}
+
+.lp-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.75rem;
+  margin-bottom: 0.875rem;
+}
+
+@media (max-width: 500px) {
+  .lp-summary-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+.lp-stat-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.5rem;
+  padding: 0.625rem 0.5rem;
+  text-align: center;
+}
+
+.lp-stat-levels {
+  align-items: flex-start;
+  padding: 0.625rem 0.75rem;
+}
+
+.lp-stat-num {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: #1e3a8a;
+  line-height: 1.1;
+}
+
+.lp-stat-label {
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-top: 0.15rem;
+}
+
+.lp-stat-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  border: 1px solid transparent;
+}
+
+.lp-top-error {
+  background: #fef9f0;
+  border: 1px solid #fed7aa;
+  border-radius: 0.5rem;
+  padding: 0.625rem 0.875rem;
+  font-size: 0.82rem;
+}
+
+/* Level badge colors (reused in group cards too) */
+.lp-level-debug  { background: #f1f5f9; color: #475569; border-color: #e2e8f0; }
+.lp-level-info   { background: #dbeafe; color: #1d4ed8; border-color: #bfdbfe; }
+.lp-level-warn   { background: #fef3c7; color: #92400e; border-color: #fde68a; }
+.lp-level-error  { background: #fee2e2; color: #991b1b; border-color: #fca5a5; }
+.lp-level-fatal  { background: #4c1d95; color: #fff;    border-color: #7c3aed; }
+
+/* ─── Timeline ──────────────────────────────────────────────────────────────── */
+.lp-timeline-section {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  padding: 1rem;
+}
+
+.lp-timeline-chart {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 64px;
+  overflow-x: auto;
+  padding-bottom: 1.25rem; /* space for labels */
+  position: relative;
+}
+
+.lp-tl-bar-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  flex-shrink: 0;
+  min-width: 24px;
+  height: 100%;
+  justify-content: flex-end;
+  position: relative;
+}
+
+.lp-tl-bar {
+  width: 100%;
+  background: #ef4444;
+  border-radius: 2px 2px 0 0;
+  min-height: 3px;
+  transition: background 0.15s;
+}
+
+.lp-tl-bar-wrap:hover .lp-tl-bar { background: #b91c1c; }
+
+.lp-tl-label {
+  position: absolute;
+  bottom: -1.2rem;
+  font-size: 0.58rem;
+  color: #94a3b8;
+  white-space: nowrap;
+  transform: rotate(-35deg);
+  transform-origin: top left;
+}
+
+/* ─── Filter & Sort bar ─────────────────────────────────────────────────────── */
+.lp-filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.625rem;
+  padding: 0.625rem 0.875rem;
+  box-shadow: var(--shadow-card);
+}
+
+.lp-filter-group {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  flex-wrap: wrap;
+}
+
+.lp-filter-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-right: 0.1rem;
+}
+
+.lp-filter-btn,
+.lp-sort-btn {
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
+  border: 1px solid #e2e8f0;
+  background: #fff;
+  color: #374151;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+
+.lp-filter-btn:hover, .lp-sort-btn:hover   { background: #f1f5f9; border-color: #94a3b8; }
+.lp-filter-btn.active, .lp-sort-btn.active {
+  background: var(--blue-primary);
+  border-color: var(--blue-primary);
+  color: #fff;
+}
+
+.lp-search-input {
+  flex: 1;
+  min-width: 140px;
+  padding: 0.3rem 0.75rem;
+  border-radius: 999px;
+  border: 1px solid #e2e8f0;
+  font-size: 0.8rem;
+  background: #f8fafc;
+  color: #1e293b;
+  transition: border-color 0.2s;
+}
+
+.lp-search-input:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59,130,246,0.15);
+}
+
+/* ─── Kartu kelompok error ──────────────────────────────────────────────────── */
+.lp-group-card {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.625rem;
+  overflow: hidden;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.lp-group-card:hover { border-color: #bfdbfe; box-shadow: var(--shadow-hover); }
+
+.lp-group-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.625rem 0.875rem;
+  width: 100%;
+  text-align: left;
+  background: #fff;
+  border: none;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.lp-group-header:hover { background: #f8fafc; }
+
+.lp-group-header-left {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 0;
+  flex: 1;
+}
+
+.lp-group-header-right {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+.lp-level-badge {
+  flex-shrink: 0;
+  font-size: 0.66rem;
+  font-weight: 700;
+  padding: 0.15rem 0.4rem;
+  border-radius: 0.3rem;
+  border: 1px solid transparent;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.lp-group-count {
+  flex-shrink: 0;
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: #ef4444;
+  background: #fef2f2;
+  padding: 0.1rem 0.4rem;
+  border-radius: 0.3rem;
+}
+
+.lp-group-msg {
+  font-size: 0.8rem;
+  font-family: "Fira Code", "Cascadia Code", "Consolas", monospace;
+  color: #1e293b;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.lp-meta {
+  font-size: 0.68rem;
+  color: #94a3b8;
+  white-space: nowrap;
+}
+
+.lp-chevron {
+  font-size: 0.65rem;
+  color: #94a3b8;
+  transition: transform 0.2s;
+}
+
+/* ─── Body kartu (expanded) ─────────────────────────────────────────────────── */
+.lp-group-body {
+  padding: 0.75rem 0.875rem;
+  border-top: 1px solid #f1f5f9;
+  background: #fafbfc;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.lp-subsection-title {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #475569;
+  margin-bottom: 0.35rem;
+}
+
+.lp-sample-block { display: flex; flex-direction: column; gap: 0.25rem; }
+
+.lp-sample-lines {
+  background: #0f172a;
+  border-radius: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  overflow-x: auto;
+}
+
+.lp-sample-line {
+  font-family: "Fira Code", "Cascadia Code", "Consolas", monospace;
+  font-size: 0.75rem;
+  color: #cbd5e1;
+  white-space: pre;
+  line-height: 1.6;
+}
+
+/* ─── Rules analysis block ──────────────────────────────────────────────────── */
+.lp-rules-section { display: flex; flex-direction: column; gap: 0.625rem; }
+.lp-rules-empty   { padding: 0.5rem 0; }
+
+.lp-rule-item {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.5rem;
+  padding: 0.625rem 0.875rem;
+}
+
+.lp-rule-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.375rem;
+}
+
+.lp-rule-name {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #1e3a8a;
+  font-family: "Fira Code", "Cascadia Code", monospace;
+}
+
+.lp-rule-lang {
+  font-size: 0.66rem;
+  font-weight: 700;
+  padding: 0.1rem 0.35rem;
+  border-radius: 0.25rem;
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+.lp-rule-explanation {
+  font-size: 0.8rem;
+  color: #374151;
+  line-height: 1.55;
+  margin-bottom: 0.5rem;
+}
+
+.lp-rule-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.lp-rule-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  font-size: 0.78rem;
+  color: #374151;
+  line-height: 1.5;
+}
+
+/* ─── Section heading ───────────────────────────────────────────────────────── */
+.lp-section-heading {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 0.625rem;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   CODE CONTEXT FIXER — codeFixer.js styles
+   Tab bar, layout dua kolom, textarea kode bernomor baris, diff, dll.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ─── Tab bar ───────────────────────────────────────────────────────────────── */
+.app-tab-bar {
+  display: flex;
+  gap: 0.25rem;
+  border-bottom: 2px solid #e2e8f0;
+  padding-bottom: 0;
+}
+
+.app-tab-btn {
+  padding: 0.5rem 1.25rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #64748b;
+  background: transparent;
+  border: none;
+  border-bottom: 3px solid transparent;
+  margin-bottom: -2px;
+  cursor: pointer;
+  border-radius: 0.375rem 0.375rem 0 0;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.app-tab-btn:hover  { color: var(--blue-primary); background: #f8fafc; }
+.app-tab-btn.active {
+  color: var(--blue-primary);
+  border-bottom-color: var(--blue-primary);
+  background: #fff;
+}
+
+/* ─── Layout Code Fixer ─────────────────────────────────────────────────────── */
+.cf-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+@media (max-width: 768px) {
+  .cf-layout { grid-template-columns: 1fr; }
+}
+
+.cf-col-input  { min-width: 0; }
+.cf-col-result { min-width: 0; }
+
+/* ─── Textarea kode dengan nomor baris ──────────────────────────────────────── */
+.cf-code-wrapper {
+  display: flex;
+  border-radius: 0.625rem;
+  overflow: hidden;
+  border: 2px solid #1e293b;
+  background: #0f172a;
+  transition: border-color 0.2s;
+}
+
+.cf-code-wrapper:focus-within { border-color: #3b82f6; box-shadow: 0 0 0 3px rgba(59,130,246,0.2); }
+
+.cf-line-nums {
+  flex-shrink: 0;
+  padding: 0.875rem 0.5rem 0.875rem 0.75rem;
+  font-family: "Fira Code","Cascadia Code","Consolas",monospace;
+  font-size: 0.82rem;
+  line-height: 1.7;
+  color: #475569;
+  background: #0f172a;
+  border-right: 1px solid #1e293b;
+  text-align: right;
+  user-select: none;
+  margin: 0;
+  min-width: 2.5rem;
+  overflow: hidden;
+}
+
+.cf-code-textarea {
+  flex: 1;
+  padding: 0.875rem 1rem;
+  font-family: "Fira Code","Cascadia Code","Consolas",monospace;
+  font-size: 0.82rem;
+  line-height: 1.7;
+  background: #0f172a;
+  color: #e2e8f0;
+  border: none;
+  resize: none;
+  min-height: 220px;
+  caret-color: #60a5fa;
+  tab-size: 2;
+  overflow-y: auto;
+}
+
+.cf-code-textarea::placeholder { color: #475569; }
+.cf-code-textarea:focus         { outline: none; }
+
+/* ─── Konteks kode (blok pre dengan highlight) ──────────────────────────────── */
+.cf-context-pre {
+  display: block;
+  padding: 0.875rem 1rem;
+  background: #0f172a;
+  color: #cbd5e1;
+  font-family: "Fira Code","Cascadia Code","Consolas",monospace;
+  font-size: 0.78rem;
+  line-height: 1.75;
+  overflow-x: auto;
+  max-height: 260px;
+  overflow-y: auto;
+  margin: 0;
+  white-space: pre;
+}
+
+.cf-line {
+  display: block;
+  border-left: 3px solid transparent;
+}
+
+.cf-line-error {
+  background: rgba(239, 68, 68, 0.12);
+  color: #fca5a5;
+  border-left-color: #ef4444;
+}
+
+.cf-line-num {
+  display: inline-block;
+  width: 4ch;
+  color: #475569;
+  margin-right: 0.75rem;
+  user-select: none;
+  font-variant-numeric: tabular-nums;
+}
+
+.cf-line-code    { white-space: pre; }
+.cf-col-marker   { color: #f97316; font-weight: 700; }
+.cf-no-line-info { color: #64748b; font-style: italic; }
+.cf-filename     { color: #60a5fa; background: transparent; }
+
+/* ─── Saran perbaikan ───────────────────────────────────────────────────────── */
+.cf-suggestions-header { margin-bottom: 0.625rem; }
+
+.cf-suggestion-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.375rem;
+  margin-bottom: 0.75rem;
+}
+
+.cf-suggestion-tab {
+  font-size: 0.75rem;
+  font-weight: 500;
+  padding: 0.3rem 0.7rem;
+  border-radius: 999px;
+  border: 1px solid #e2e8f0;
+  background: #fff;
+  color: #374151;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+  text-align: left;
+}
+
+.cf-suggestion-tab:hover { background: #f1f5f9; border-color: #94a3b8; }
+.cf-suggestion-tab.active {
+  background: var(--blue-primary);
+  border-color: var(--blue-primary);
+  color: #fff;
+}
+
+/* ─── Badge ─────────────────────────────────────────────────────────────────── */
+.cf-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.cf-badge-green  { background: #dcfce7; color: #166534; border: 1px solid #bbf7d0; }
+.cf-badge-orange { background: #fff7ed; color: #9a3412; border: 1px solid #fed7aa; }
+.cf-badge-blue   { background: #dbeafe; color: #1d4ed8; border: 1px solid #bfdbfe; }
+
+/* ─── Penjelasan perbaikan ──────────────────────────────────────────────────── */
+.cf-explanation {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: 0.5rem;
+  padding: 0.625rem 0.875rem;
+  font-size: 0.82rem;
+  color: #166534;
+  margin-bottom: 0.625rem;
+  line-height: 1.55;
+}
+
+.cf-explanation-icon { flex-shrink: 0; font-size: 1rem; }
+
+/* ─── Diff block ────────────────────────────────────────────────────────────── */
+.cf-diff-block { margin-bottom: 0.75rem; }
+
+.cf-diff-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.375rem 0.75rem;
+  background: #1e293b;
+  border-radius: 0.5rem 0.5rem 0 0;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #94a3b8;
+}
+
+.cf-diff-legend { display: flex; gap: 0.875rem; }
+.cf-legend-removed { color: #fca5a5; }
+.cf-legend-added   { color: #86efac; }
+
+.cf-diff-pre {
+  background: #0f172a;
+  border-radius: 0 0 0.5rem 0.5rem;
+  padding: 0.625rem 0;
+  font-family: "Fira Code","Cascadia Code","Consolas",monospace;
+  font-size: 0.78rem;
+  line-height: 1.7;
+  overflow-x: auto;
+  margin: 0;
+  white-space: pre;
+}
+
+.cf-diff-line {
+  display: flex;
+  align-items: baseline;
+  gap: 0.25rem;
+  padding: 0.05rem 0.75rem;
+}
+
+.cf-diff-sign {
+  flex-shrink: 0;
+  width: 1ch;
+  font-weight: 700;
+}
+
+.cf-diff-removed { background: rgba(239,68,68,0.15); color: #fca5a5; }
+.cf-diff-removed .cf-diff-sign { color: #ef4444; }
+.cf-diff-added   { background: rgba(34,197,94,0.15); color: #86efac; }
+.cf-diff-added   .cf-diff-sign { color: #22c55e; }
+.cf-diff-ctx     { color: #64748b; }
+.cf-diff-sep     { display: block; color: #475569; padding: 0.1rem 0.75rem; font-style: italic; }
+
+/* ─── Baris aksi ────────────────────────────────────────────────────────────── */
+.cf-action-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+/* ─── No-fix card ───────────────────────────────────────────────────────────── */
+.cf-no-fix {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+}
+
+.cf-no-fix-msg {
+  font-size: 0.83rem;
+  color: #374151;
+  line-height: 1.55;
+}
