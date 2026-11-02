@@ -4,7 +4,7 @@ Aplikasi web yang membantu developer, terutama pemula, memahami error log dan me
 
 Capstone Project: Hacktiv8 x IBM SkillsBuild, Track IT (AI Agent for Programming).
 
-**Demo:** https://USERNAME.github.io/NAMA-REPO
+**Demo:** https://nekoharin.github.io/Error-Log-Explainer-Debug-Buddy/
 
 ## Masalah yang Diselesaikan
 
@@ -14,10 +14,10 @@ Pesan error dan stack trace sering sulit dipahami: panjang, berbahasa Inggris, d
 
 - **Analisis error log**: tempel log, lalu dapatkan nama error, tingkat keparahan (Low/Medium/High), penjelasan, kemungkinan penyebab, langkah perbaikan, dan contoh kode.
 - **Dukungan bahasa**: JavaScript, Python, Java, C++, SQL, dan HTTP/Network, plus Auto-detect.
-- **Multi-error**: beberapa error dalam satu log dianalisis berurutan, lengkap dengan nama file dan nomor baris. `[SESUAIKAN]`
-- **Analisis log besar**: pengelompokan error berulang, filter level (INFO/WARN/ERROR/FATAL), pencarian, dan timeline berdasarkan timestamp. `[SESUAIKAN]`
-- **Debug Buddy (chatbot)**: tanya jawab lanjutan tentang hasil analisis terakhir, berbasis aturan. `[SESUAIKAN]`
-- **Code Context Fixer**: menyorot baris bermasalah dan memberi saran perbaikan berbasis aturan dalam tampilan diff. `[SESUAIKAN]`
+- **Multi-error**: beberapa error dalam satu log dianalisis berurutan, lengkap dengan nama file dan nomor baris. 
+- **Analisis log besar**: pengelompokan error berulang, filter level (INFO/WARN/ERROR/FATAL), pencarian, dan timeline berdasarkan timestamp. 
+- **Debug Buddy (chatbot)**: tanya jawab lanjutan tentang hasil analisis terakhir, berbasis aturan. 
+- **Code Context Fixer**: menyorot baris bermasalah dan memberi saran perbaikan berbasis aturan dalam tampilan diff. 
 - **Riwayat analisis** tersimpan di `localStorage`, tombol salin hasil, dan contoh log siap pakai.
 - Input di-escape agar aman dari XSS, tampilan responsif (mobile-first), dan aksesibilitas dasar.
 
@@ -50,8 +50,7 @@ Aplikasi ini bersifat **rule-based**. Log dicocokkan dengan kumpulan pola (regex
 
 1. Clone repo ini:
    ```bash
-   git clone https://github.com/USERNAME/NAMA-REPO.git
-   ```
+   git clone https://github.com/NekohaRin/Error-Log-Explainer-Debug-Buddy.git
 2. Buka foldernya di VS Code atau IBM Bob.
 3. Pasang ekstensi **Live Server**, klik kanan `index.html`, lalu pilih **Open with Live Server**.
 
